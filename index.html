@@ -344,6 +344,21 @@ function loadPreset(key){
       document.getElementById("val_"+id).textContent=fmtSlider(s,val);
     }
   });
+
+  // Pendo Track: preset scenario loaded
+  if(typeof pendo!=="undefined"&&pendo.track){
+    var scenarioName=SCENARIOS[key]?SCENARIOS[key].label:key;
+    pendo.track("preset_scenario_loaded",{
+      preset_key:key,
+      preset_name:scenarioName,
+      release_frequency:String(p.release_frequency),
+      instrumentation_growth_rate:String(p.instrumentation_growth_rate),
+      feedback_delay_baseline:String(p.feedback_delay_baseline),
+      ux_review_quality:String(p.ux_review_quality),
+      fix_acceptance_rate:String(p.fix_acceptance_rate),
+      launch_planning_maturity:String(p.launch_planning_maturity)
+    });
+  }
 }
 
 function runCustomSimulation(){
@@ -355,6 +370,34 @@ function runCustomSimulation(){
     customParams=getSliderParams();
     customData=runSim(customParams);
     refreshAll();
+
+    // Pendo Track: simulation completed with input params and output results
+    var last=customData[24];
+    var rows=Object.entries(SCENARIOS).map(function(e){var k=e[0],sc=e[1];return{key:k,val:REF_DATA[k][24][activeMetric]*METRICS[activeMetric].scale};});
+    rows.push({key:"__custom",val:last[activeMetric]*METRICS[activeMetric].scale});
+    rows.sort(function(a,b){return METRICS[activeMetric].good==="high"?b.val-a.val:a.val-b.val;});
+    var customRank=rows.findIndex(function(r){return r.key==="__custom";})+1;
+    if(typeof pendo!=="undefined"&&pendo.track){
+      pendo.track("simulation_executed",{
+        release_frequency:String(customParams.release_frequency),
+        instrumentation_growth_rate:String(customParams.instrumentation_growth_rate),
+        feedback_delay_baseline:String(customParams.feedback_delay_baseline),
+        ux_review_quality:String(customParams.ux_review_quality),
+        fix_acceptance_rate:String(customParams.fix_acceptance_rate),
+        launch_planning_maturity:String(customParams.launch_planning_maturity),
+        final_funnel_completion_rate:String((last.funnel_completion_rate*100).toFixed(1)),
+        final_adoption_score:String((last.adoption_score*100).toFixed(1)),
+        final_launch_readiness_score:String((last.launch_readiness_score*100).toFixed(1)),
+        final_instrumentation_coverage:String((last.instrumentation_coverage*100).toFixed(1)),
+        final_user_friction_risk:String((last.user_friction_risk*100).toFixed(1)),
+        final_product_quality_risk:String((last.product_quality_risk*100).toFixed(1)),
+        final_feedback_loop_lag:String(last.feedback_loop_lag.toFixed(1)),
+        final_signals_detected_cumulative:String(last.signals_detected_cumulative.toFixed(0)),
+        final_fixes_accepted_cumulative:String(last.fixes_accepted_cumulative.toFixed(0)),
+        custom_scenario_rank:String(customRank)
+      });
+    }
+
     btn.classList.remove("running");btn.innerHTML="\u25B6 Run Simulation";
     document.getElementById("lineWrap").classList.remove("fading");
     document.getElementById("barWrap").classList.remove("fading");
@@ -416,6 +459,21 @@ function buildRankTable(){
       <td style="font-family:'Syne',sans-serif;font-weight:700;color:${r.sc.color}">${m.fmt(r.val)}</td>
     </tr>`;
   }).join("");
+
+  // Pendo Track: scenario comparison ranked
+  if(typeof pendo!=="undefined"&&pendo.track){
+    var customRow=rows.find(function(r){return r.key==="__custom";});
+    var customRankIdx=rows.indexOf(customRow)+1;
+    pendo.track("scenario_comparison_ranked",{
+      active_metric:activeMetric,
+      custom_scenario_value:String(m.fmt(customRow.val)),
+      custom_scenario_rank:String(customRankIdx),
+      total_scenarios_compared:String(rows.length),
+      top_scenario_key:rows[0].key,
+      top_scenario_value:String(m.fmt(rows[0].val)),
+      is_custom_top_ranked:String(customRankIdx===1)
+    });
+  }
 }
 
 function buildRecommendations(){
@@ -444,6 +502,24 @@ function buildRecommendations(){
       <h4>${r.title}</h4><p>${r.text}</p>
       <div class="rec-score">${r.score}</div>
     </div>`).join("");
+
+  // Pendo Track: recommendations generated after simulation
+  if(typeof pendo!=="undefined"&&pendo.track){
+    var critCount=recs.filter(function(r){return r.cls==="bad";}).length;
+    var warnCount=recs.filter(function(r){return r.cls==="warn";}).length;
+    var goodCount=recs.filter(function(r){return r.cls==="good";}).length;
+    pendo.track("recommendations_generated",{
+      feedback_loop_lag_value:String(lag.toFixed(1)),
+      feedback_loop_lag_severity:lag>4?"bad":lag>1.5?"warn":"good",
+      fix_acceptance_rate_value:String(Math.round(far*100)),
+      fix_acceptance_rate_severity:far<.45?"bad":far<.7?"warn":"good",
+      instrumentation_coverage_value:String(Math.round(ic*100)),
+      instrumentation_coverage_severity:ic<.45?"bad":ic<.75?"warn":"good",
+      total_critical_count:String(critCount),
+      total_warning_count:String(warnCount),
+      total_good_count:String(goodCount)
+    });
+  }
 }
 
 const GC="rgba(180,200,225,.8)",TC="#7090b0";
