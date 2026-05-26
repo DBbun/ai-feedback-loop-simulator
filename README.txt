@@ -17,5 +17,4 @@ The final DBbun prompt used to guide conversion from static product content into
 03_intended_product_brief.txt
 The product brief for the hosted web app, including target users, product goal, scenarios, outputs, and positioning.
 
-Recommended public framing:
 The simulator was inspired by a public product-agent discussion about AI-speed product development, instrumentation, feedback loops, and launch readiness. The full transcript is not redistributed in this repository. The resulting simulator is an independent DBbun-generated project and is not an official Novus.ai product.
