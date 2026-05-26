@@ -1,0 +1,81 @@
+Intended Product Brief
+
+Working title:
+AI Product Feedback Loop Simulator
+
+Short description:
+An interactive simulator that helps AI builders explore how shipping speed, user behavior, instrumentation, and feedback loops affect product quality and adoption.
+
+Target users:
+- product managers
+- founders
+- designers
+- engineers
+- AI builders
+- product teams shipping quickly with AI-assisted workflows
+
+Core problem:
+AI tools make it easier to build and release product changes quickly. But faster shipping can create a gap between what teams build and what users actually experience. If instrumentation, analytics, UX review, launch planning, and feedback loops do not keep up, teams may ship more without learning more.
+
+Product goal:
+Help a builder simulate what happens when a team ships faster than its feedback loop can support.
+
+Main product question:
+When a team ships quickly, are they also learning quickly enough?
+
+Final user experience:
+The public web app should let a visitor:
+- adjust product-team assumptions with sliders
+- choose from preset product scenarios
+- run a simulation
+- compare their custom scenario against reference scenarios
+- inspect product-health metrics
+- view charts over a multi-week horizon
+- read recommended next actions
+
+Key adjustable levers:
+- shipping speed
+- instrumentation growth or coverage
+- feedback-loop delay
+- UX review quality
+- AI fixes accepted
+- rollout maturity
+
+Key outputs:
+- funnel completion
+- adoption score
+- launch readiness
+- instrumentation coverage
+- friction risk
+- quality risk
+- feedback lag
+- signals detected
+- fixes accepted
+- scenario ranking
+- recommended next actions
+
+Suggested scenarios:
+1. Fast / weak feedback
+2. Fast / strong instrumentation
+3. Slow / strong review
+4. AI autopilot / proactive signals
+5. Staged rollout / feedback capture
+6. Launch / no adoption tracking
+
+Hackathon fit:
+The project fits the "Everyone Ships Now" theme because it explores a practical consequence of AI-speed product development: teams can ship faster, but the product loop only improves when user behavior, instrumentation, and feedback are captured and acted on.
+
+Hosted product requirement:
+The final project should be a working public web app, not only code, a ZIP file, or a local simulator. A judge should be able to open the deployed URL and use the simulator immediately.
+
+Current deployed app:
+https://dbbun.github.io/ai-feedback-loop-simulator/
+
+Code repository:
+https://github.com/DBbun/ai-feedback-loop-simulator
+
+Novus/Pendo learning:
+After installing Novus, the dashboard detected real visitor activity while also flagging that feature-level events were not yet being captured. That finding reinforced the project’s central lesson: fast product shipping is only valuable when instrumentation and feedback loops are strong enough to reveal what users are actually doing.
+
+Positioning statement:
+This is an independent DBbun-generated simulator inspired by a public product-agent discussion. It demonstrates DBbun's broader idea of turning static materials into interactive, executable companions that help people explore decisions, test assumptions, and learn from data.

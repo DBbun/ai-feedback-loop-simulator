@@ -1,0 +1,30 @@
+Source Material Note
+
+Project:
+AI Product Feedback Loop Simulator
+
+Public inspiration:
+This simulator was inspired by a public product-agent video discussion titled "Meet Novus: the product agent built for the speed of AI."
+
+Public video URL:
+https://www.youtube.com/watch?v=BrP_-nGaDxQ
+
+How the source material was used:
+The video discussion was used as conceptual source material for extracting ideas about AI-speed product development, instrumentation, user behavior, adoption tracking, launch readiness, and product feedback loops.
+
+The source material helped define simulator concepts such as:
+- AI-assisted product teams shipping faster
+- roles blending across product, design, and engineering
+- the risk of shipping faster than the feedback loop can support
+- the need for instrumentation across pages, events, funnels, journeys, and AI-agent interactions
+- the importance of memory, product context, personas, workflows, and business goals
+- detecting signals from real user behavior
+- identifying friction and missed insights
+- using feedback to prioritize product fixes
+- planning launches, staged rollouts, and adoption tracking
+
+What is not included:
+The full transcript is not redistributed here. This repository includes only a source-material note, simulator prompt, product brief, code, and the resulting interactive simulator.
+
+Independence statement:
+This is an independent DBbun-generated simulator inspired by a public product-agent discussion. It is not an official Novus.ai product and does not claim affiliation with Novus.ai or Pendo.

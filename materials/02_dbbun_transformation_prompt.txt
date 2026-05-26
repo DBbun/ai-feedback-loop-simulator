@@ -1,0 +1,78 @@
+DBbun Transformation Prompt
+
+Project:
+AI Product Feedback Loop Simulator
+
+Objective:
+Create an interactive product-feedback-loop simulator inspired by a public product-agent discussion about AI-speed product development.
+
+The simulator should model how AI-assisted product teams move from idea to shipped product, instrument user behavior, detect signals, identify friction, generate recommended fixes, and improve adoption over time.
+
+Core concept:
+AI makes building and shipping faster. But faster shipping is only useful when a product team has enough instrumentation, feedback capture, UX review, adoption tracking, and launch discipline to understand what users are actually doing. Otherwise, faster shipping can become faster guessing.
+
+Extract and model these concepts:
+- AI increases the speed of product development.
+- Product, design, and engineering roles increasingly overlap.
+- Teams can ship more frequently, but this raises the need for stronger feedback loops.
+- Instrumentation helps detect pages, events, funnels, journeys, and interaction patterns.
+- Product memory captures context such as personas, workflows, business goals, and previous product decisions.
+- Signals identify product problems, opportunities, user friction, and adoption gaps.
+- UX review helps catch experience problems before or shortly after release.
+- Launch planning requires staged rollout, goals, feedback collection, and adoption tracking.
+- The system should close the loop from observed user behavior to recommended product improvement.
+
+Simulator inputs:
+Build a model where users can adjust variables such as:
+- shipping speed
+- instrumentation coverage
+- feedback-loop delay
+- user friction
+- UX review quality
+- AI-assisted fixes accepted
+- rollout maturity
+- launch-planning quality
+- adoption tracking strength
+- percentage of product changes informed by real user signals
+
+Suggested scenarios:
+1. Fast shipping, weak feedback loop
+2. Fast shipping, strong instrumentation
+3. Slow shipping, strong review process
+4. AI-assisted team with proactive product signals
+5. Staged rollout with feedback capture
+6. Launch without adoption tracking
+
+Simulator outputs:
+The simulator should estimate or display:
+- product adoption score
+- funnel completion rate
+- user-friction risk
+- missed-insight risk
+- product-quality risk
+- launch-readiness score
+- instrumentation coverage
+- feedback-loop lag
+- expected number of useful signals detected
+- expected number of fixes accepted
+- before/after scenario comparison
+- recommended next actions for the product team
+
+Interface requirements:
+Create an experience that can become a hosted static web app. A visitor should be able to:
+- open a public URL
+- understand the purpose immediately
+- adjust sliders or scenario controls
+- run the simulation
+- compare outcomes across scenarios
+- view charts and product-health scores
+- read recommended next actions
+
+Product positioning:
+The simulator should be framed as an independent DBbun-generated executable companion that turns static product content into an interactive scenario model. It should not be presented as an official Novus.ai product or as a clone of Novus.ai.
+
+Novus/Pendo integration context:
+The final hosted web app should support Novus/Pendo analytics installation so that real visitor activity and interaction patterns can be monitored. If the analytics dashboard detects visitor activity but missing feature-level events, this should be treated as a useful product-learning signal because it reinforces the importance of instrumentation in feedback loops.
+
+Output expectation:
+Produce a simulator concept, scenario structure, model assumptions, sample data, visual outputs, and implementation-ready logic that can be wrapped in a static HTML/CSS/JavaScript interface.
