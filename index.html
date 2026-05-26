@@ -14,6 +14,11 @@
     y=e.createElement(n);y.async=!0;y.src='https://cdn.pendo.io/agent/static/'+apiKey+'/pendo.js';
     z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
 })('ffe7aad3-bd37-4b05-8760-b779700c5b54');
+
+pendo.initialize({
+    visitor: { id: 'anonymous-' + Math.random().toString(36).substr(2, 9) },
+    account: { id: 'dbbun-simulator' }
+});
 </script>
 <style>
 :root{
