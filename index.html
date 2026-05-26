@@ -41,7 +41,6 @@
     const visitorId = getVisitorId();
     window.dbbunPendoVisitorId = visitorId;
 
-    // Safe track wrapper — works before and after pendo agent loads
     window.dbbunTrack = function(eventName, metadata){
         try {
             const payload = Object.assign({
@@ -55,29 +54,31 @@
                 window.pendo.track(eventName, payload);
             }
         } catch (err) {
-            console.warn('Pendo tracking failed:', eventName, err);
+            console.warn('Novus/Pendo tracking failed:', eventName, err);
         }
     };
 
-    // Wait for pendo agent to fully load before calling initialize
-    function pendoReady(cb) {
-        if (window.pendo && window.pendo.initialize && !window.pendo._q) {
-            cb();
-        } else {
-            setTimeout(function(){ pendoReady(cb); }, 100);
-        }
+    // Initialize immediately. The Pendo stub queues this until the agent loads.
+    if (window.pendo && typeof window.pendo.initialize === 'function') {
+        window.pendo.initialize({
+            visitor: {
+                id: visitorId,
+                role: 'anonymous_visitor'
+            },
+            account: {
+                id: 'dbbun-simulator',
+                name: 'DBbun Simulator'
+            }
+        });
     }
 
-    pendoReady(function(){
-        try {
-            pendo.initialize({
-                visitor:  { id: visitorId, role: 'anonymous_visitor' },
-                account:  { id: 'dbbun-simulator', name: 'DBbun Simulator' }
+    // Send an explicit page-load event after the app has had a moment to load.
+    window.addEventListener('load', function(){
+        setTimeout(function(){
+            window.dbbunTrack('page_loaded', {
+                title: document.title
             });
-            window.dbbunTrack('page_loaded', { title: document.title });
-        } catch(err) {
-            console.warn('Pendo initialize failed:', err);
-        }
+        }, 1000);
     });
 })();
 </script>
