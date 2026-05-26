@@ -41,6 +41,7 @@
     const visitorId = getVisitorId();
     window.dbbunPendoVisitorId = visitorId;
 
+    // Safe track wrapper — works before and after pendo agent loads
     window.dbbunTrack = function(eventName, metadata){
         try {
             const payload = Object.assign({
@@ -50,7 +51,6 @@
                 visitor_id: visitorId,
                 tracked_at: new Date().toISOString()
             }, metadata || {});
-
             if (window.pendo && typeof window.pendo.track === 'function') {
                 window.pendo.track(eventName, payload);
             }
@@ -59,30 +59,25 @@
         }
     };
 
-    pendo.initialize({
-        visitor: {
-            id: visitorId,
-            role: 'anonymous_visitor'
-        },
-        account: {
-            id: 'dbbun-simulator',
-            name: 'DBbun Simulator'
+    // Wait for pendo agent to fully load before calling initialize
+    function pendoReady(cb) {
+        if (window.pendo && window.pendo.initialize && !window.pendo._q) {
+            cb();
+        } else {
+            setTimeout(function(){ pendoReady(cb); }, 100);
         }
-    });
-
-    try {
-        if (window.pendo && typeof window.pendo.pageLoad === 'function') {
-            window.pendo.pageLoad({
-                name: 'AI Product Feedback Loop Simulator',
-                url: window.location.href
-            });
-        }
-    } catch (err) {
-        console.warn('Pendo pageLoad failed:', err);
     }
 
-    window.dbbunTrack('page_loaded', {
-        title: document.title
+    pendoReady(function(){
+        try {
+            pendo.initialize({
+                visitor:  { id: visitorId, role: 'anonymous_visitor' },
+                account:  { id: 'dbbun-simulator', name: 'DBbun Simulator' }
+            });
+            window.dbbunTrack('page_loaded', { title: document.title });
+        } catch(err) {
+            console.warn('Pendo initialize failed:', err);
+        }
     });
 })();
 </script>
